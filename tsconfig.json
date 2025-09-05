@@ -15,11 +15,12 @@
     //  Alias mapping
     "baseUrl": "./src",
     "paths": {
-      "@utils/*": ["utils/*"],
-      "@module/*": ["module/*"],
-      "@controllers/*": ["controllers/*"],
-      "@services/*": ["services/*"],
-      "@entities/*": ["entities/*"]
+      "@auth/*": ["auth/*"],
+      "@common/*": ["common/*"],
+      "@config/*": ["config/*"],
+      "@database/*": ["database/*"],
+      "@entities/*": ["entities/*"],
+      "@users/*": ["users/*"],
     },
     "outDir": "./dist",
     "rootDir": "./src"
