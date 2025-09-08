@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
-import { AppModule } from './app.module';
 import csurf from 'csurf';
 import session from 'express-session';
+import { AppModule } from './app.module';
+import { LoggerMiddleware } from '@middleware/logger/loggerMiddleware';
+import { AllExceptionsFilter } from '@common/filter/exceptions.filter';
+import { TransformInterceptor } from '@common/interceptors/transform.interceptors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +30,16 @@ async function bootstrap() {
 
   //Cross-Site Request Forgery
   app.use(csurf());
+
+  // logger middleware
+  app.use(new LoggerMiddleware().use);
+
+  // global exception filter
+  app.useGlobalFilters(new AllExceptionsFilter());
+
+  // global interceptor to transform response structure
+  app.useGlobalInterceptors(new TransformInterceptor());
+
 
   await app.listen(5000);
 }

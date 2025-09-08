@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '@users/users.service';
+import { AuditService } from '@audit/audit.service';
 import { User } from '@entities/user.entity';
 import { Role } from '@users/role.enum';
 
@@ -16,6 +17,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private auditService: AuditService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<User | null> {
@@ -26,7 +28,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User) {
+  async login(user: User, ip?: string) {
     const payload = { username: user.username, sub: user.id, role: user.role };
 
     const accessToken = this.jwtService.sign(payload, {
@@ -38,6 +40,14 @@ export class AuthService {
       secret: process.env.JWT_REFRESH_SECRET,
       expiresIn: '7d',
     });
+
+    await this.auditService.createLog({
+      userId: user.id.toString(),
+      action: 'LOGIN_SUCCESS',
+      details: { username: user.username },
+      ipAddress: ip,
+    });
+
     return {
       access_token: accessToken,
       refresh_token: refreshToken,

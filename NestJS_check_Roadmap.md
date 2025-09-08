@@ -215,3 +215,22 @@
 - CORS: Cross-Origin Resource Sharing: Chỉ cho phép web (frontend) gọi API từ cùng origin (protocol + domain + port).
 
 - Hash password (bcrypt): mã hóa password bằng bcrypt
+
+## M10 - Logging
+
+- AuditLog Entity: cấu trúc bảng để lưu log.
+- DTO: định nghĩa dữ liệu khi ghi log.
+- Service: API nội bộ để ghi/xem log.
+- Controller: cho phép admin truy vấn log.
+- Module: đóng gói, export để dùng trong toàn hệ thống.
+
+## M11 - Error Handling & Validation
+
+- Global exception filter: đảm bảo mọi lỗi đều trả về 1 format thống nhất.
+- Class-validator cho DTO: validate dữ liệu đầu vào.
+- Custom pipes: Pipe trong NestJS dùng để transform và validate dữ liệu trước khi đến controller.
+- Interceptor transform response (success wrapper): format response trả về từ API(success wrapper). có thể transform tất cả API hoặc một API nhất định(@UseInterceptors(TransformInterceptor)).
+
+## M12 - Testing
+
+## M13 - Deployment

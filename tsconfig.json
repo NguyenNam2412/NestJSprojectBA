@@ -20,6 +20,8 @@
       "@config/*": ["config/*"],
       "@database/*": ["database/*"],
       "@entities/*": ["entities/*"],
+      "@middleware/*": ["middleware/*"],
+      "@audit/*": ["audit/*"],
       "@users/*": ["users/*"],
       "@task/*": ["task/*"]
     },
