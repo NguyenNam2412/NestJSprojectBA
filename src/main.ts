@@ -25,6 +25,7 @@ async function bootstrap() {
     cookie: { httpOnly: true, secure: true },
   }));
 
+  //Cross-Site Request Forgery
   app.use(csurf());
 
   await app.listen(5000);
