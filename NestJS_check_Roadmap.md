@@ -127,7 +127,7 @@
 
 - Tổng kết: Hoàn chỉnh login với JWT, backend biết được user nào đang request.
 
-## M6 – Guard + Role-based Access
+## M6 – Guard + Role-based Access (Authorization với RBAC (Role-based Access Control))
 
 - Mục tiêu: Kiểm soát quyền truy cập theo role.
 
@@ -138,8 +138,8 @@
 
 - Tác dụng file:
 - jwt-auth.guard.ts: check token JWT có hợp lệ không.
-- roles.decorator.ts: tạo metadata @Roles('admin').
-- roles.guard.ts: check role của user có khớp không.
+- roles.guard.ts: đọc metadata, check role của user có khớp không.
+- roles.decorator.ts: tạo, gán metadata @Roles('admin') vào route.
 
 - Tổng kết:
 - API yêu cầu login: dùng JwtAuthGuard.
@@ -147,3 +147,5 @@
 
 - Bổ sung:
 - Sử dụng ROLES_KEY để định danh metadata.
+- APP_GUARD sử dụng ở auth.module -> chạy toàn cục, không cần gắn từng controller.
+- @UseGuards -> áp dụng cục bộ, hoặc override behavior.

@@ -1,7 +1,9 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Role } from '@users/role.enum'
 
 // Data Transfer Object and validation for creating a user
 export class CreateUserDto {
+  @IsString()
   @IsNotEmpty()
   username!: string;
 
@@ -10,4 +12,9 @@ export class CreateUserDto {
 
   @MinLength(6)
   password!: string;
+}
+
+export class AdminCreateUserDto extends CreateUserDto {
+  @IsEnum(Role)
+  role!: Role;
 }

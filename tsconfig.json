@@ -21,6 +21,7 @@
       "@database/*": ["database/*"],
       "@entities/*": ["entities/*"],
       "@users/*": ["users/*"],
+      "@task/*": ["task/*"]
     },
     "outDir": "./dist",
     "rootDir": "./src"
