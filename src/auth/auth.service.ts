@@ -21,9 +21,17 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, pass: string): Promise<User | null> {
-    const user = await this.usersService.findByUsername(username);
-    if (user && (await bcrypt.compare(pass, user.password))) {
-      return user;
+    // searchByUsername trả về mảng users (LIKE search). 
+    // Tìm user khớp chính xác theo username (case-insensitive), nếu không có thì dùng phần tử đầu tiên.
+    const users = await this.usersService.searchByUsername(username);
+    if (!users || users.length === 0) {
+      return null;
+    }
+
+    const matched = users.find(u => u.username.toLowerCase() === username.toLowerCase()) ?? users[0];
+
+    if (matched && (await bcrypt.compare(pass, matched.password))) {
+      return matched;
     }
     return null;
   }
@@ -55,20 +63,20 @@ export class AuthService {
   }
 
   async signup(username: string, email: string, password: string): Promise<User> {
-    const existing = await this.usersService.findByUsername(username);
-    if (existing) {
+    const existing = await this.usersService.searchByUsername(username);
+    if (existing && existing.length) {
       throw new BadRequestException('Username already exists');
     }
-    const hashed = await bcrypt.hash(password, 10);
-    return this.usersService.register({ username, email, password: hashed });
+    // UsersService.register already hashes the password, so pass plain password
+    return this.usersService.register({ username, email, password });
   }
 
   async createUser(username: string, email: string, password: string, role: Role, currentUser?: any): Promise<User> {
     if (currentUser?.role !== Role.Admin) {
       throw new UnauthorizedException('Only admins can create users with specific roles');
     }
-    const hashed = await bcrypt.hash(password, 10);
-    return this.usersService.create({ username, email, password: hashed, role });
+    // UsersService.create will hash the password, so pass plain password
+    return this.usersService.create({ username, email, password, role });
   }
 
   async refreshToken(refreshToken: string) {
