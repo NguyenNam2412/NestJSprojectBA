@@ -233,4 +233,27 @@
 
 ## M12 - Testing
 
+- npm install --save-dev @nestjs/testing
+- tạo file jest.config, thêm moduleNameMapper để jest nhận diện đường dẫn @
+- tạo unit test cho các chức năng của service và controller
+
+- Test service: đảm bảo logic chức năng hoạt động đúng, không phụ thuộc HTTP layer: check CRUD, check function xử lý, có thê mock reponsitory (fake data DB) để test nhanh mà không cần connect DB
+- => test chức năng của ứng dụng -> đảm bảo logic xử lý chuẩn.
+
+- Test controller: đảm bảo API endpoint hoạt động đúng khi gọi từ bên ngoài:
+- kiểm tra endpoint format data, status code;
+- Test flow request → controller → service → response;
+- Xác minh request DTO validation, response shape (ví dụ có id, username), và HTTP status (201, 200, 404, 400...);
+- Thường mock service, để controller test chỉ tập trung vào request/response, không test lại business logic.
+- => kiểm tra API ứng dụng -> đảm bảo API endpoints hoạt động đúng, dữ liệu trả về đúng cho client.
+
+- e2e: sử dụng supertest, giả lập request thực tế từ client đến API , đi qua toàn bộ pipeline NestJS (middleware -> guard -> interceptor -> service -> DB) => đảm bảo controller mapping đúng route, kiểm tra dữ liệu trả về client.
+- auth flow (reg -> log -> access): kiểm tra luồng đăng nhập
+- cần có jest-e2e.json để tạo lệnh test npm run test:e2e
+
+- Coverage report: kiểm tra xem bao nhiêu code đã được test => cải thiện chất lượng test
+- chay coverage: npm run test:cov
+
+- có thể tạo lệnh scripts để chạy đồng thời: "test:all": "npm run test:cov && npm run test:e2e -- --coverage"
+
 ## M13 - Deployment

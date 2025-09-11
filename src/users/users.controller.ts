@@ -1,5 +1,5 @@
 // src/users/users.controller.ts
-import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Query, Delete, Param, Body, UseGuards, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@entities/user.entity';
 import { CreateUserDto, AdminCreateUserDto } from './dto/create-user.dto';
@@ -29,6 +29,13 @@ export class UsersController {
     @Param('id') id: number,
   ): Promise<User | null> {
     return this.usersService.findOne(Number(id));
+  }
+
+  @Get('search')
+  async searchByUsername(
+    @Query('q') q: string
+  ): Promise<User[]> {
+    return this.usersService.searchByUsername(q);
   }
 
   @Post('register')

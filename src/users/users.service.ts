@@ -6,6 +6,7 @@ import { User } from '@entities/user.entity';
 import { Role } from './role.enum';
 import { CreateUserDto, AdminCreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Like } from 'typeorm';
 
 // CURD with database
 @Injectable()
@@ -23,8 +24,11 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  async findByUsername(username: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ username });
+  async searchByUsername(keyword: string): Promise<User[]> {
+    return this.usersRepository
+    .createQueryBuilder('user')
+    .where('LOWER(user.username) LIKE LOWER(:name)', { name: `%${keyword}%` })
+    .getMany();
   }
 
   async register(dto: CreateUserDto): Promise<User> {

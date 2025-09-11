@@ -22,7 +22,7 @@
 - Fail-fast: nếu thiếu env → throw error.
 - Validation env bằng `class-validator`.
 
-## M2 -- Database PostgreSQL
+## M2 -- Database SQLLite
 
 - Cài `pg` + ORM (TypeORM hoặc Prisma).
 - Config kết nối từ `.env`.
@@ -106,7 +106,7 @@
 
 ## M13 -- Deployment
 
-- Tạo `Dockerfile` + `docker-compose.yml` (NestJS + PostgreSQL).
+- Tạo `Dockerfile` + `docker-compose.yml` (NestJS + SQLLite).
 - Script DB migration trong Docker.
 - Hướng dẫn deploy local vs production.
 - Optional: Heroku/Render/Railway/AWS EC2.
