@@ -9,14 +9,17 @@ import { AllExceptionsFilter } from '@common/filter/exceptions.filter';
 import { TransformInterceptor } from '@common/interceptors/transform.interceptors';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
+
+  // catch shutdown signals
+  app.enableShutdownHooks();
 
   // Enable global validation pipe, check for validation errors in DTO -> return 400 Bad Request if failed
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
   app.enableCors({
     origin: ['http://localhost:3000'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
     credentials: true,
   });
 
@@ -40,7 +43,6 @@ async function bootstrap() {
   // global interceptor to transform response structure
   app.useGlobalInterceptors(new TransformInterceptor());
 
-
-  await app.listen(5000);
+  await app.listen(process.env.PORT || 5000);
 }
 bootstrap();

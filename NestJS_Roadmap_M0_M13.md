@@ -108,7 +108,7 @@
 
 - Tạo `Dockerfile` + `docker-compose.yml` (NestJS + SQLLite).
 - Script DB migration trong Docker.
-- Hướng dẫn deploy local vs production.
+- deploy local vs production.
 - Optional: Heroku/Render/Railway/AWS EC2.
 - Add `README.md` chi tiết:
   - Giới thiệu

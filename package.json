@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/main.js",
+    "start": "nest start",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+    "start:prod": "node dist/main.js",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
